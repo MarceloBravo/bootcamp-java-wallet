@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Wallet - Depositar</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./styles/style.css">
+  <link rel="stylesheet" href="./styles/deposit.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="./js/deposit.js"></script>
+</head>
+<body>
+  <div id="alert-container" class="alert alert-success" role="alert">
+
+  </div>
+  <div class="alert alert-danger" role="alert">
+    El monto ingresado no es válido!
+  </div>
+  <div class="container">
+    <h2>Depositar</h2>
+    <h3>Saldo</h2>
+    <h4 id="h-monto"></h3>
+    <form id="depositForm">
+      <div class="form-group">
+        <label for="depositAmount">Monto a depositar:</label>
+        <input type="number" class="form-control" id="depositAmount" placeholder="Enter amount">
+      </div>
+      <button id="btnDeposit" type="submit" class="btn btn-primary">Realizar depósito</button>
+      <button id="btnCancel" type="button" class="btn btn-secondary">Volver al Menú Principal</button>
+    </form>
+    <h3 id="p-summary"></h3>
+  </div>
+</body>
+</html>

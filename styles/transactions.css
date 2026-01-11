@@ -1,0 +1,52 @@
+body {
+    background-color: #f8f9fa;
+    padding-top: 40px;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+}
+
+h2 {
+    color: #007bff;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+#historial {
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.list-group-item {
+    border: none;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.list-group-item.deposit {
+    background-color: #d4edda; /* Light green for deposits */
+    color: #155724;
+}
+
+.list-group-item.send {
+    background-color: #f8d7da; /* Light red for sends */
+    color: #721c24;
+}
+
+.list-group-item.buy {
+    background-color: #fff3cd; /* Light yellow for buys */
+    color: #856404;
+}
+
+.btn-secondary {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+}

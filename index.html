@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>Wallet - Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./styles/style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="./js/login.js" defer></script>  
+</head>
+<body>
+    <div id="alertDanger" class="alert alert-danger" role="alert">
+        Datos incorrectos o incompletos!
+    </div>
+    <div class="container">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="inputEmail">Email:</label>
+                <input id="inputEmail" name="inputEmail" type="email" class="form-control" placeholder="Ingresa tu nombre de usuario">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" placeholder="Enter password">
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+            <a href="userRegister.html">¿No tienes cuenta? Registrate aquí</a>
+        </form>
+    </div>
+
+    <!-- Modal -->
+    <div id="msgModal" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title fs-5" id="modalLabel">Información</h2>
+            </div>
+            <div id="modalBody" class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button id="btnCloseModal" type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+            </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

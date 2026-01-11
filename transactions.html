@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Wallet - Últimos Movimientos</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./styles/style.css"> 
+  <link rel="stylesheet" href="./styles/transactions.css"> 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="./js/transactions.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h2>Últimos Movimientos</h2>
+    <div class="mb-3">
+      <label for="filterTransaction" class="form-label">Filtrar transacciones por:</label>
+      <select id="select-filter" class="form-select form-control" aria-label="Default select example">
+        <option value="">Todas</option>
+        <option value="deposit">Deposito</option>
+        <option value="send">Transferencia</option>
+        <option value="buy">Compra</option>
+      </select>
+    </div>
+    <ul id="historial" class="list-group">
+      
+    </ul>
+    <a href="menu.html" class="btn btn-secondary">Volver al Menú Principal</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Wallet - Enviar Dinero</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./styles/style.css">
+    <link rel="stylesheet" href="./styles/sendmoney.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="./js/sendmoney.js"></script>
+</head>
+
+<body>
+  <div id="alertDanger" class="alert alert-danger" role="alert">
+    Datos incorrectos o incompletos!
+  </div>
+ <div id="alertSuccess" class="alert alert-success" role="alert">
+    A simple success alert—check it out!
+  </div> 
+  <div class="container">
+    <h2>Enviar Dinero</h2>
+    <form>
+      <div class="form-group">
+        <label for="searchContact">Buscar en la agenda de transferencias:</label>
+        <input type="text" class="form-control" id="searchContact" placeholder="Search contact" onchange="inputSearchContactChange(event)">
+      </div>
+      <button id="btnShowModal" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ModalContacto">
+        Agregar nuevo contacto
+      </button>
+
+      <h3>Contactos</h3>
+      <ul id="contactList" class="list-group">
+        
+      </ul>
+      <button id="btnEnviarDinero" type="button" class="btn btn-primary">Enviar dinero</button>
+    </form>
+    <button id="btnBackToMenu" type="button" class="btn btn-secondary">Volver al Menú Principal</a>
+  </div>
+  <div id="alertInfo" class="alert alert-info" role="alert">
+    A simple info alert—check it out!
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="ModalContacto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div id="alertDangerModal" class="alert alert-danger" role="alert">
+      Datos incorrectos o incompletos!
+    </div>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo contacto</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="inputNombre" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="inputNombre" placeholder="Nombre del contacto">
+          </div>
+          <div class="mb-3">
+            <label for="inputApellido" class="form-label">Apellido</label>
+            <input type="text" class="form-control" id="inputApellido" placeholder="Apellido del contacto">
+          </div>
+          <div class="mb-3">
+            <label for="inputCBU" class="form-label">N° CBU</label>
+            <input type="number" class="form-control" id="inputCBU" placeholder="Número CBU">
+          </div>
+          <div class="mb-3">
+            <label for="inputAlias" class="form-label">Alias</label>
+            <input type="text" class="form-control" id="inputAlias" placeholder="Alias">
+          </div>
+          <div class="mb-3">
+            <label for="inputBanco" class="form-label">Banco</label>
+            <input type="text" class="form-control" id="inputBanco" placeholder="Banco">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="btnNuevoContacto" type="button" class="btn btn-primary">Agregar nuevo contacto</button>
+          <button id="btnCerrarModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>
