@@ -1,4 +1,7 @@
+let userAccount = null;
 $(document).ready(function(){
+
+    userAccount = validateAccount();
 
      loadTranscations();
 
@@ -7,24 +10,23 @@ $(document).ready(function(){
      });
 })
 
-function loadTranscations(){
-    const history = localStorage.getItem('history');
+const loadTranscations = () => {
+    const history = userAccount.wallet.history ?? [];
     if(!history){
-         $("#historial").html('No hay movimientos');
+        showMessage('No hay movimientos', 'danger');
          return;
     }
-    const historyArray = JSON.parse(history);
     let htmlHistory = '';
-    const historyFiltered = $("#select-filter").val() !== '' ? historyArray.filter(transaction => transaction.type === $("#select-filter").val()) : historyArray;
+    const historyFiltered = $("#select-filter").val() !== '' ? history.filter(transaction => transaction.type === $("#select-filter").val()) : history;
     historyFiltered.forEach(transaction => {
         htmlHistory += `<li class="list-group-item">
-                        ${transaction.contact.nombre} ${transaction.contact.apellido} - $${transaction.amount} - ${getTipoTransaccion(transaction.type)} - ${transaction.date ?? 'Sin info'}
+                        ${transaction.nombre} - $${transaction.amount} - ${getTipoTransaccion(transaction.type)} - ${transaction.date ?? 'Sin info'}
                         </li>`;
     });
     $("#historial").html(htmlHistory);
 }
 
-function getTipoTransaccion(type){
+const getTipoTransaccion = (type) => {
     if(type === 'deposit'){
         return 'Deposito';
     }

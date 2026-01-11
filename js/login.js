@@ -3,36 +3,28 @@ $(document).ready(function(){
      $('#loginForm').submit(
         function(event){
             event.preventDefault();
-            if(validateData()){
-                $('#modalBody').html('Te haz autenticado correctamente')
-                $('#msgModal').css('display', 'block');
+            if(login()){
+                
+                $(location).attr('href', "dashboard.html");
                 return;
             }
-            $('#alertDanger').css('display', 'block');
+            showMessage('Usuario o contraseña incorrectos', 'danger');
         }
      )
-
-    $("#username").keyup(function(){
-        $('#alertDanger').css('display', 'none');
-    });
-
-
-    $("#password").keyup(function(){  
-        $('#alertDanger').css('display', 'none');
-    });
-
-    $("#btnCloseModal").click(function(){
-        $('#modalBody').html('');
-        $('#msgModal').css('display', 'none');
-        localStorage.setItem('user', $("#username").val());
-        $(location).attr('href', "menu.html");
-    });
-    
 });
 
-function validateData(){
-    const username =  $("#username").val();
+function login(){
+    const email =  $("#email").val();
     const password = $('#password').val();
-    return username.trim().length >= 1 && password.trim().length >= 5;
+    const users = localStorage.getItem('users') ? JSON.parse(localStorage.getItem('users')) : [];
+    if(users.length === 0){
+        return false;
+    }
+    const exists = users.filter(user => user.email === email && user.pwd === password)
+    if(exists.length === 0){
+        return false;
+    }
+    sessionStorage.setItem('userSession', JSON.stringify(exists[0].rut));
+    return true;
 }
 

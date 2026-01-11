@@ -5,29 +5,50 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="./styles/style.css">
   <link rel="stylesheet" href="./styles/deposit.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js"></script>
+
+  <script src="./js/modal.js"></script>
+  <script src="./js/utils.js"></script>
   <script src="./js/deposit.js"></script>
 </head>
 <body>
-  <div id="alert-container" class="alert alert-success" role="alert">
-
-  </div>
-  <div class="alert alert-danger" role="alert">
-    El monto ingresado no es válido!
-  </div>
   <div class="container">
     <h2>Depositar</h2>
     <h3>Saldo</h2>
     <h4 id="h-monto"></h3>
-    <form id="depositForm">
+    <form>
       <div class="form-group">
         <label for="depositAmount">Monto a depositar:</label>
         <input type="number" class="form-control" id="depositAmount" placeholder="Enter amount">
+        <div class="msgError" id="msgDepositAmount"></div>
       </div>
-      <button id="btnDeposit" type="submit" class="btn btn-primary">Realizar depósito</button>
+      <button id="btnDeposit" type="button" class="btn btn-primary">Realizar depósito</button>
       <button id="btnCancel" type="button" class="btn btn-secondary">Volver al Menú Principal</button>
     </form>
-    <h3 id="p-summary"></h3>
   </div>
+
+  <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="modalBody" class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button id="btnSecondaryModal" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <a id="btnPrimaryModal" type="button" class="btn btn-primary" href="./dashboard.html">Aceptar</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,20 +1,17 @@
- let contacts = [
-    {nombre: 'Jon', apellido: 'Doe', CBU: 123456789, Alias: 'john.doe', Banco: 'ABC Banck'},
-    {nombre: 'Jane', apellido: 'Smith', CBU: 987654321, Alias: 'jane.smith', Banco: 'XYZ Bank'},
-];
+let contacts = [];
 let selectedContact = null;
 const searchContact = $("#searchContact").val();
+let userAccount = null;
+let acction = null;
 
 
 $(document).ready(function(){
-    const storageContacts = localStorage.getItem('contacts');
-    if(!storageContacts){
-        localStorage.setItem('contacts', JSON.stringify(contacts));
-    }else{
-        contacts = JSON.parse(storageContacts);
-    }
+
+    userAccount = validateAccount();
+
+    contacts = userAccount.wallet.contacts;
+
     listContacts();
-    
 
     $("#btnCerrarModal").click(()=>{
         cerrarModal();
@@ -25,22 +22,45 @@ $(document).ready(function(){
     });
 
     $("#btnEnviarDinero").click(()=>{
+        solicitarMonto();
+    });
+
+    $("#btnRealizarEnvio").click(()=>{
         enviarDinero();
     });
 
-    $("#btnBackToMenu").click(()=>{
-        disableButtons();
-        $("#alertSuccess").html("Regresando al menú principal...");
-        $("#alertSuccess").css("display", "block");
-        setTimeout(()=>window.location.href = "menu.html", 2000)
+    $("#btnCancelarEnvio").click(()=>{
+        $("#ModalMontoEnvio").modal("hide");
     });
 
+    $("#btnBackToMenu").click(()=>{
+        $(location).attr('href', "dashboard.html");
+    });
 
+    $("#btnPrimaryModal").click(() => {
+        if(acction === 'nuevo_contacto'){
+            $("#myModal").modal("hide");
+            acction = null;
+            return;
+        }
+        $(location).attr('href', "dashboard.html");
+    });
+
+    $("#btnSecondaryModal").click(() => {
+        $("#myModal").modal("hide");
+    })
+
+    $("#inputMonto").change(() => {
+        $("#alertInfo").html("");
+    })
     
 });
 
 
-function cerrarModal(){
+/**
+ * Resetea los campos y cierra el formulario modal de creación de contacto
+ */
+const cerrarModal = () => {
     $("#inputNombre").val('');
     $("#inputApellido").val('');
     $("#inputCBU").val(0);
@@ -49,25 +69,40 @@ function cerrarModal(){
     $("#alertDangerModal").css("display", "none");
 }
 
-function nuevoContacto(){
-    const firstName = $("#inputNombre").val();
-    const lastName = $("#inputApellido").val();
-    const cbu = $("#inputCBU").val();
-    const alias = $("#inputAlias").val();
-    const bank = $("#inputBanco").val();
-    if(!firstName || !lastName || !cbu || !alias || !bank){
-        $("#alertDangerModal").css("display", "block");
-        $("#alertDangerModal").html("Debe completar todos los campos");
-        return;
+const nuevoContacto = () => {
+    action = 'nuevo_contacto';
+    try{
+        const firstName = $("#inputNombre").val();
+        const lastName = $("#inputApellido").val();
+        const cbu = $("#inputCBU").val();
+        const alias = $("#inputAlias").val();
+        const bank = $("#inputBanco").val();
+        if(!firstName || !lastName || !cbu || !alias || !bank){
+            $("#alertDangerModal").css("display", "block");
+            $("#alertDangerModal").html("Debe completar todos los campos");
+            return;
+        }
+        contacts.push({nombre: firstName, apellido: lastName, CBU: cbu, Alias: alias, Banco: bank});
+        saveContacts();
+
+        listContacts();
+        $('#btnCerrarModal').click();
+        showMessage('Contacto creado correctamente', 'success');
+    }catch(error){
+        showMessage('Error al crear el contacto', 'danger');
     }
-    contacts.push({nombre: firstName, apellido: lastName, CBU: cbu, Alias: alias, Banco: bank});
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-    listContacts();
-    $('#btnCerrarModal').click();
 };
 
 
-function listContacts(filtered = null){
+const saveContacts = () => {
+    userAccount.wallet.contacts = contacts;
+    const users = localStorage.getItem('users') ? JSON.parse(localStorage.getItem('users')) : [];
+    const index = users.findIndex(user => user.rut === userAccount.rut);
+    users[index] = userAccount;
+    localStorage.setItem('users', JSON.stringify(users));
+}
+
+const listContacts = (filtered = null) => {
     const data = filtered || contacts;
     let id = 0;
     let innerHTML = '';
@@ -84,7 +119,7 @@ function listContacts(filtered = null){
 }
 
 
-function liSeleccionarContactoClick(id){
+const liSeleccionarContactoClick = (id) => {
     const items = document.querySelectorAll('ul li');
     selectedContact = null;
     items.forEach(li => {
@@ -99,36 +134,55 @@ function liSeleccionarContactoClick(id){
     })
 }
 
-function enviarDinero(){
+const solicitarMonto = () => {
     if(!selectedContact){
-        $("#alertDanger").css("display", "block");
-        $("#alertDanger").html("Debe seleccionar un contacto");
+        showMessage('Debe seleccionar un contacto', 'danger');
         return;
     }
-
-    $("#alertInfo").css("display", "block");
-    $("#alertInfo").html("Dinero enviado: $1000\nContacto: " + selectedContact.nombre + " " + selectedContact.apellido);
-    let currentAmount = localStorage.getItem('amount');
-    let newAmount = parseInt(currentAmount) - 1000;
-    localStorage.setItem('amount', newAmount);
-    updateHistory();
-    disableButtons();
-    setTimeout(()=> $(location).attr('href', "menu.html"), 3000);
+    $("#inputMonto").val('');
+    $("#alertInfo").html("");
+    $("#ModalMontoEnvio").modal("show");
 }
 
-function updateHistory(){
-    const history = localStorage.getItem('history');
-    let historyArray = [];
-    if(!history){
-        localStorage.setItem('history', JSON.stringify(historyArray));
-    }else{
-        historyArray = JSON.parse(history);
+const enviarDinero = () => {
+    let msgError = null;
+    try{
+        const monto = $("#inputMonto").val();
+        if(!monto || monto <= 0){
+            $("#alertInfo").html("Debe ingresar un monto válido");
+            return;
+        }
+        msgError = 'Error al enviar dinero';
+        let currentAmount = userAccount.wallet.amount;
+        let newAmount = currentAmount - monto;
+        userAccount.wallet.amount = newAmount;
+
+        msgError = 'Error al actualizar el registro';
+        updateLocalStorage();
+        msgError = 'Error al actualizar el historial';
+        updateHistory();
+        showMessage(`Dinero enviado correctamente:<br/>Monto: $${monto}<br/>Enviado a: ${selectedContact.nombre} ${selectedContact.apellido}`, 'success');
+        $("#ModalMontoEnvio").modal("hide");
+    }catch(error){
+        showMessage(msgError ??'Error al enviar dinero', 'danger');
     }
-    historyArray.push({contact: selectedContact, amount: 1000, type: 'send', date: new Date().toLocaleString()});
-    localStorage.setItem('history', JSON.stringify(historyArray));
+
 }
 
-function inputSearchContactChange(event){
+const updateLocalStorage = () => {
+    let users = localStorage.getItem('users') ? JSON.parse(localStorage.getItem('users')) : [];
+    const index = users.findIndex(user => user.rut === userAccount.rut);
+    users[index] = userAccount;
+    localStorage.setItem('users', JSON.stringify(users));
+}
+
+const updateHistory = (amount) => {
+    let historyArray = userAccount.wallet.history ?? [];
+    historyArray.push({rut: userAccount.rut, nombre: userAccount.nombre, amount, type: 'deposit', date: new Date().toLocaleString()});
+    userAccount.wallet.history = historyArray;
+}
+
+const inputSearchContactChange = (event) => {
     const value = event.target.value;
     const filtered = contacts.filter(contact => {
         if(
@@ -142,10 +196,4 @@ function inputSearchContactChange(event){
         }
     })
     listContacts(filtered);
-}
-
-function disableButtons(){
-    $("#btnShowModal").attr('disabled', 'disabled');
-    $("#btnEnviarDinero").attr('disabled', 'disabled');
-    $("#btnBackToMenu").attr('disabled', 'disabled');
 }
