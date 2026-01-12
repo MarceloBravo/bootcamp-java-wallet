@@ -34,25 +34,37 @@ const validateAccount = () => {
     const userSession = sessionStorage.getItem('userSession') ? JSON.parse(sessionStorage.getItem('userSession')) : {};
     // No hay usuarios registrados
     if(users.length === 0 || !userSession){
-        $(location).attr('href', "login.html");
+        $(location).attr('href', "index.html");
         return;
     }
     const userData = users.filter(user => user.rut === userSession);
     // El usuario no existe
     if(userData.length === 0){
-        $(location).attr('href', "login.html");
+        $(location).attr('href', "index.html");
         return;
     }
 
     // El objeto no tiene todos sus campos o está corrupto
     if(userData[0].wallet.amount === undefined || userData[0].wallet.amount === undefined || userData[0].wallet.amount === undefined){
-        $(location).attr('href', "login.html");
+        $(location).attr('href', "index.html");
         return;
     }
 
     return userData[0];
   }catch(error){
-    $(location).attr('href', "login.html");
+    $(location).attr('href', "index.html");
     return;
   }
+}
+
+
+const hashPassword = async (texto) => {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(texto);
+
+  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+
+  return hashHex;
 }
