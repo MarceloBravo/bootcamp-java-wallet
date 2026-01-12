@@ -29,7 +29,7 @@ h3 {
 #h-monto {
     font-size: 2rem;
     font-weight: bold;
-    color: #28a745;
+    color: #959595;;
     margin-bottom: 30px;
 }
 
@@ -52,7 +52,7 @@ h3 {
     font-weight: 500;
 }
 
-#alert-container, .alert-danger {
+.alert-danger {
     display: none;
     position: absolute;
     top: 20px;
@@ -61,10 +61,4 @@ h3 {
     z-index: 1000;
     width: 90%;
     max-width: 600px;
-}
-
-#p-summary {
-    margin-top: 20px;
-    font-size: 1.1rem;
-    color: #343a40;
 }

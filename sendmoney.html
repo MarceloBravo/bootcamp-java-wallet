@@ -49,18 +49,25 @@
 
     <div class="container">
       <h2>Enviar Dinero</h2>
+      <h3 class="h3-saldo">Saldo:
+        <span id="h-monto">$ 0</span>
+      </h3>
       <form>
+        
         <div class="form-group">
-          <label for="searchContact">Buscar en la agenda de transferencias:</label>
-          <input type="text" class="form-control" id="searchContact" placeholder="Search contact"
+          <label for="searchContact">Buscar en la agenda de contactos:</label>
+          <input type="text" class="form-control" id="searchContact" placeholder="Buscar contacto"
             onchange="inputSearchContactChange(event)">
         </div>
-        <button id="btnShowModal" type="button" class="btn btn-primary" data-bs-toggle="modal"
+
+        <div class="row conatiner-add-contact">
+          <h3>Contactos</h3>
+          <button id="btnShowModal" type="button" class="btn btn-primary" data-bs-toggle="modal"
           data-bs-target="#ModalContacto">
           Agregar nuevo contacto
+          <img class="add-user-image" src="./assets/add-user.png" alt="Add user"/>
         </button>
-
-        <h3>Contactos</h3>
+        </div>
         <ul id="contactList" class="list-group">
 
         </ul>

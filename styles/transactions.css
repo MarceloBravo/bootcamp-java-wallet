@@ -40,10 +40,6 @@ h2 {
     color: #721c24;
 }
 
-.list-group-item.buy {
-    background-color: #fff3cd; /* Light yellow for buys */
-    color: #856404;
-}
 
 .btn-secondary {
     width: 100%;

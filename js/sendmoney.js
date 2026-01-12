@@ -11,6 +11,8 @@ $(document).ready(function(){
 
     contacts = userAccount.wallet.contacts;
 
+    $("#h-monto").html('$' + userAccount.wallet.amount);
+
     listContacts();
 
     $("#btnCerrarModal").click(()=>{
@@ -163,7 +165,8 @@ const enviarDinero = () => {
         updateHistory(monto);
 
         updateLocalStorage();
-
+        
+        $("#h-monto").html('$' + newAmount);
         showMessage(`Dinero enviado correctamente:<br/>Monto: $${monto}<br/>Enviado a: ${selectedContact.nombre} ${selectedContact.apellido}`, 'success');
         $("#ModalMontoEnvio").modal("hide");
     }catch(error){

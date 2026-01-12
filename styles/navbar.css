@@ -4,6 +4,7 @@
     top: 0px;
     left: 0px;
     box-shadow: 1px 4px #a7a0a02e;
+    z-index: 10;
 }
 
 #spnLogout{
