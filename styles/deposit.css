@@ -59,14 +59,13 @@ h3 {
     flex-wrap: wrap;
 }
 
-.btn {
+.container-buttons .btn {
     margin-bottom: 15px;
     padding: 12px;
     font-size: 1.1rem;
     background-color: #dbdbdbc2;
     color: black;
     border: none;
-    height: 5em;
     width: 11em;
 }
 
