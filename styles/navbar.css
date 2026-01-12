@@ -1,0 +1,11 @@
+.navbar{
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    box-shadow: 1px 4px #a7a0a02e;
+}
+
+#spnLogout{
+    cursor: pointer;
+}

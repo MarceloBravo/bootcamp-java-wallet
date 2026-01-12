@@ -33,5 +33,5 @@ const getTipoTransaccion = (type) => {
     if(type === 'send'){
         return 'Envio';
     }
-    return 'Desconocida';
+    return '';
 }

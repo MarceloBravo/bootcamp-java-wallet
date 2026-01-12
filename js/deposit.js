@@ -47,7 +47,7 @@ const deposit = () => {
 
 const updateHistory = (amount) => {
     let historyArray = userAccount.wallet.history ?? [];
-    historyArray.push({rut: userAccount.rut, nombre: userAccount.nombre, amount, type: 'deposit', date: new Date().toLocaleString()});
+    historyArray.push({nombre: userAccount.nombre, amount, type: 'deposit', date: new Date().toLocaleString()});
     userAccount.wallet.history = historyArray;
 }
 

@@ -1,4 +1,4 @@
-.active{
+.list-group-item.active{
     background: rgb(1 55 88) !important;
 }
 
