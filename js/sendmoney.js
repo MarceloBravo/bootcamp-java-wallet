@@ -149,7 +149,11 @@ const enviarDinero = () => {
     try{
         const monto = $("#inputMonto").val();
         if(!monto || monto <= 0){
-            $("#alertInfo").html("Debe ingresar un monto válido");
+            showMessage("Debe ingresar un monto válido","danger");
+            return;
+        }
+        if(monto < userAccount.wallet.amount){
+            showMessage("No tienes saldo insuficiente para realizar ésta operación","danger");
             return;
         }
         msgError = 'Error al enviar dinero';
