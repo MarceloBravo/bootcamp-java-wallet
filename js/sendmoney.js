@@ -2,7 +2,7 @@ let contacts = [];
 let selectedContact = null;
 const searchContact = $("#searchContact").val();
 let userAccount = null;
-let acction = null;
+let action = null;
 
 
 $(document).ready(function(){
@@ -38,7 +38,7 @@ $(document).ready(function(){
     });
 
     $("#btnPrimaryModal").click(() => {
-        if(acction === 'nuevo_contacto'){
+        if(action === 'nuevo_contacto'){
             $("#myModal").modal("hide");
             acction = null;
             return;
@@ -78,8 +78,7 @@ const nuevoContacto = () => {
         const alias = $("#inputAlias").val();
         const bank = $("#inputBanco").val();
         if(!firstName || !lastName || !cbu || !alias || !bank){
-            $("#alertDangerModal").css("display", "block");
-            $("#alertDangerModal").html("Debe completar todos los campos");
+            showMessage("Debe completar todos los campos", "danger");
             return;
         }
         contacts.push({nombre: firstName, apellido: lastName, CBU: cbu, Alias: alias, Banco: bank});
@@ -147,13 +146,13 @@ const solicitarMonto = () => {
 const enviarDinero = () => {
     let msgError = null;
     try{
-        const monto = $("#inputMonto").val();
+        const monto = parseInt($("#inputMonto").val());
         if(!monto || monto <= 0){
             showMessage("Debe ingresar un monto válido","danger");
             return;
         }
-        if(monto < userAccount.wallet.amount){
-            showMessage("No tienes saldo insuficiente para realizar ésta operación","danger");
+        if(monto > userAccount.wallet.amount){
+            showMessage("No tienes saldo suficiente para realizar ésta operación","danger");
             return;
         }
         msgError = 'Error al enviar dinero';
@@ -161,10 +160,10 @@ const enviarDinero = () => {
         let newAmount = currentAmount - monto;
         userAccount.wallet.amount = newAmount;
 
-        msgError = 'Error al actualizar el registro';
+        updateHistory(monto);
+
         updateLocalStorage();
-        msgError = 'Error al actualizar el historial';
-        updateHistory();
+
         showMessage(`Dinero enviado correctamente:<br/>Monto: $${monto}<br/>Enviado a: ${selectedContact.nombre} ${selectedContact.apellido}`, 'success');
         $("#ModalMontoEnvio").modal("hide");
     }catch(error){
@@ -174,16 +173,24 @@ const enviarDinero = () => {
 }
 
 const updateLocalStorage = () => {
-    let users = localStorage.getItem('users') ? JSON.parse(localStorage.getItem('users')) : [];
-    const index = users.findIndex(user => user.rut === userAccount.rut);
-    users[index] = userAccount;
-    localStorage.setItem('users', JSON.stringify(users));
+    try{
+        let users = localStorage.getItem('users') ? JSON.parse(localStorage.getItem('users')) : [];
+        const index = users.findIndex(user => user.rut === userAccount.rut);
+        users[index] = userAccount;
+        localStorage.setItem('users', JSON.stringify(users));
+    }catch(error){
+        showMessage('Error al actualizar el reistro', 'danger');
+    }
 }
 
-const updateHistory = (amount) => {
-    let historyArray = userAccount.wallet.history ?? [];
-    historyArray.push({rut: userAccount.rut, nombre: userAccount.nombre, amount, type: 'deposit', date: new Date().toLocaleString()});
-    userAccount.wallet.history = historyArray;
+const updateHistory = (monto) => {
+    try{
+        let historyArray = userAccount.wallet.history ?? [];
+        historyArray.push({nombre: selectedContact.nombre, amount: monto, type: 'send', date: new Date().toLocaleString()});
+        userAccount.wallet.history = historyArray;
+    }catch(error){
+        showMessage('Error al actualizar el historial', 'danger');
+    }
 }
 
 const inputSearchContactChange = (event) => {
