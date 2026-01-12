@@ -6,6 +6,14 @@ body {
     margin: 0 auto;
 }
 
+.container-login{
+    max-width: 390px;
+    border-radius: 10px;
+    padding: 3em;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 5em;
+}
+
 .fade{
     opacity: 1;
     background-color: #8080809c;
@@ -18,7 +26,7 @@ body {
     align-items: center;
 }
 
-.alert-success, 
+
 .alert-info, 
 .alert-danger{
     display: none;
@@ -26,4 +34,14 @@ body {
 
 .msgError{
     color: red;
+}
+
+.semi-circle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;   /* ocupa todo el ancho */
+  height: 33vh;   /* un tercio de la altura */
+  background-color: orange;
+  z-index: -1;
 }

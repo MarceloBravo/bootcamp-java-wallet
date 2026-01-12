@@ -19,6 +19,7 @@
 </head>
 
 <body>
+  <div class="semi-circle"></div>
   <div class="main-container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">Alke Wallet</a>
@@ -58,8 +59,14 @@
           <input type="number" class="form-control" id="depositAmount" placeholder="Enter amount">
           <div class="msgError" id="msgDepositAmount"></div>
         </div>
-        <button id="btnDeposit" type="button" class="btn btn-primary">Realizar depósito</button>
-        <button id="btnCancel" type="button" class="btn btn-secondary">Volver al Menú Principal</button>
+        <div class="form-group container-buttons">
+          <button id="btnDeposit" type="button" class="btn btn-primary">
+            <img src="assets/deposit.png" alt="Depositar"/>
+          </button>
+          <button id="btnCancel" type="button" class="btn btn-secondary">
+            <img src="assets/home.png" alt="Cancelar"/>
+          </button>
+        </div>
       </form>
     </div>
 

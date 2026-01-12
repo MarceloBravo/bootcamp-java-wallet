@@ -19,6 +19,7 @@
 </head>
 
 <body>
+  <div class="semi-circle"></div>
   <div class="main-container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <a class="navbar-brand" href="#">Alke Wallet</a>
@@ -62,18 +63,27 @@
 
         <div class="row conatiner-add-contact">
           <h3>Contactos</h3>
-          <button id="btnShowModal" type="button" class="btn btn-primary" data-bs-toggle="modal"
-          data-bs-target="#ModalContacto">
-          Agregar nuevo contacto
-          <img class="add-user-image" src="./assets/add-user.png" alt="Add user"/>
-        </button>
+          
         </div>
         <ul id="contactList" class="list-group">
 
         </ul>
-        <button id="btnEnviarDinero" type="button" class="btn btn-primary">Enviar dinero</button>
+
+        
+
       </form>
-      <button id="btnBackToMenu" type="button" class="btn btn-secondary">Volver al Menú Principal</a>
+      <div class="form-group container-buttons">
+        <button id="btnShowModal" type="button" class="btn" data-bs-toggle="modal"
+            data-bs-target="#ModalContacto">
+              <img src="assets/add_user.png" alt="Enviar Dinero"/>
+          </button>
+          <button id="btnEnviarDinero" type="button" class="btn">
+            <img src="assets/sendmoney.png" alt="Enviar Dinero"/>
+          </button>
+          <button id="btnBackToMenu" type="button" class="btn">
+            <img src="assets/home.png" alt="Enviar Dinero"/>
+          </button>
+        </div>
     </div>
     <div id="alertInfo" class="alert alert-info" role="alert">
       A simple info alert—check it out!

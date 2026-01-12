@@ -30,15 +30,7 @@ h2 {
     box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
 
-.list-group-item.deposit {
-    background-color: #d4edda; /* Light green for deposits */
-    color: #155724;
-}
 
-.list-group-item.send {
-    background-color: #f8d7da; /* Light red for sends */
-    color: #721c24;
-}
 
 
 .btn-secondary {

@@ -55,7 +55,7 @@ h2 {
 }
 
 #btnShowModal, #btnEnviarDinero, #btnBackToMenu {
-    width: 100%;
+    width: 193.59px;
     padding: 12px;
     font-size: 1.1rem;
     margin-top: 10px;
@@ -84,7 +84,30 @@ h2 {
     justify-content: center;
 }
 
-.add-user-image{
-    height: 2em;
+
+
+.container-buttons{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.container-buttons button {
+    margin-bottom: 15px;
+    padding: 12px;
+    font-size: 1.1rem;
+    background-color: #dbdbdbc2;
+    color: black;
+    border: none;
+    height: 5em;
+}
+
+.container-buttons button:hover{
+    background: #ffc1074a;
+}
+
+img{
+    width: 3.5em;
 }
 

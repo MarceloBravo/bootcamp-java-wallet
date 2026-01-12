@@ -1,5 +1,9 @@
-body {
+html {
     background-color: #f8f9fa;
+}
+
+body {
+    background-color: transparent;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -44,5 +48,16 @@ h2 {
 
 img{
     width: 3.5em;
+}
+
+.container-buttons{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.container-buttons button:hover{
+    background: #ffc1074a;
 }
 
