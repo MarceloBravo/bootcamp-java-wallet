@@ -13,9 +13,9 @@ $(document).ready(function(){
      )
 });
 
-function login(){
+const login = async () => {
     const email =  $("#email").val();
-    const password = $('#password').val();
+    const password = await hashPassword($('#password').val());
     const users = localStorage.getItem('users') ? JSON.parse(localStorage.getItem('users')) : [];
     if(users.length === 0){
         return false;

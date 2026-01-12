@@ -60,15 +60,14 @@ const resetErrorsMessage = () => {
     $("#msgConfirmPassword").html('');
 }
 
-const createUser = () => {
+const createUser = async () => {
     const rut = $("#rut").val();
     const nombre = $("#nombre").val();
     const email = $("#email").val();
-    const pwd = $("#password").val();
-    const confirmPwd = $("#confirmPassword").val();
+    const pwd = await hashPassword($("#password").val());
 
     const users = localStorage.getItem('users') ? JSON.parse(localStorage.getItem('users')) : [];
-    users.push({rut, nombre, email, pwd, confirmPwd, wallet: {amount: 0, history: [], contacts: []}});
+    users.push({rut, nombre, email, pwd, wallet: {amount: 0, history: [], contacts: []}});
     localStorage.setItem('users', JSON.stringify(users));
 }
 
