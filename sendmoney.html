@@ -19,10 +19,10 @@
 </head>
 
 <body>
-  <div class="semi-circle"></div>
+  <div class="background-screen"></div>
   <div class="main-container">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Alke Wallet</a>
+      <a class="navbar-brand" href="#"><span class="text-primary">A</span>lke Wallet</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"
         aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -50,15 +50,39 @@
 
     <div class="container">
       <h2>Enviar Dinero</h2>
-      <h3 class="h3-saldo">Saldo:
-        <span id="h-monto">$ 0</span>
-      </h3>
-      <form>
+      <div id="div-transaccion" class="transaccion">
+        <h3 class="h3-saldo">Saldo:
+          <span id="h-monto">$ 0</span>
+        </h3>
+        <div class="destinatario">
+
+        </div>
+        <div class="form-group monto-envio">
+          <div class="form-group row">
+            <label for="txt-monto" class="col-sm-3 col-form-label">Monto a enviar</label>
+            <div class="col-sm-9">
+              <input type="number" class="form-control" id="inputMonto" value="" placeholder="0">
+            </div>
+          </div>
+          <div class="msgError" id="msgSendAmount"></div>
+          <div class="form-group container-buttons">
+            <button id="btntransferMoney" type="button" class="btn btn-icon">
+              <img src="assets/sendmoney.png" alt="Enviar Dinero"/>
+            </button>
+            <button id="btnBackToMenu" type="button" class="btn btn-icon">
+              <img src="assets/home.png" alt="Enviar Dinero"/>
+            </button>
+          </div>
+
+        </div>
+      </div>
+      
+      
         
+      <div id="div-contactos" class="contactos">
+        <h3>Selecciona el destinatario</h3>
         <div class="form-group">
-          <label for="searchContact">Buscar en la agenda de contactos:</label>
-          <input type="text" class="form-control" id="searchContact" placeholder="Buscar contacto"
-            onchange="inputSearchContactChange(event)">
+          <input type="text" class="form-control" id="searchContact" placeholder="Buscar en la agenda de contactos">
         </div>
 
         <div class="row conatiner-add-contact">
@@ -69,25 +93,29 @@
 
         </ul>
 
-        
-
-      </form>
-      <div class="form-group container-buttons">
-        <button id="btnShowModal" type="button" class="btn" data-bs-toggle="modal"
-            data-bs-target="#ModalContacto">
+        <div class="form-group container-buttons">
+          <button id="btnExecuteTransaction" type="button" class="btn btn-icon">
+              <img src="assets/sendmoney.png" alt="Enviar Dinero"/>
+          </button>
+          <button id="btnShowModal" type="button" class="btn btn-icon" data-bs-toggle="modal" data-bs-target="#ModalContacto">
               <img src="assets/add_user.png" alt="Enviar Dinero"/>
-          </button>
-          <button id="btnEnviarDinero" type="button" class="btn">
-            <img src="assets/sendmoney.png" alt="Enviar Dinero"/>
-          </button>
-          <button id="btnBackToMenu" type="button" class="btn">
-            <img src="assets/home.png" alt="Enviar Dinero"/>
-          </button>
+          </button>  
+          <button id="btnBack" type="button" class="btn btn-icon">
+              <img src="assets/rewind-blue-left-arrows.png" alt="Enviar Dinero"/>
+          </button>  
         </div>
+      </div>
+        
     </div>
-    <div id="alertInfo" class="alert alert-info" role="alert">
-      A simple info alert—check it out!
-    </div>
+    <table id="alertInfo" class="alert alert-info" role="alert">
+      <thead>
+        <th>Contacto</th>
+        <th>Eliminar</th>
+      </thead>
+      <tbody>
+        A simple info alert—check it out!
+      </tbody>
+    </table>
 
     <!-- Modal nuevo contacto -->
     <div class="modal fade" id="ModalContacto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -98,33 +126,27 @@
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo contacto</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="mb-3">
-              <label for="inputNombre" class="form-label">Nombre</label>
               <input type="text" class="form-control" id="inputNombre" placeholder="Nombre del contacto">
             </div>
             <div class="mb-3">
-              <label for="inputApellido" class="form-label">Apellido</label>
               <input type="text" class="form-control" id="inputApellido" placeholder="Apellido del contacto">
             </div>
             <div class="mb-3">
-              <label for="inputCBU" class="form-label">N° CBU</label>
               <input type="number" class="form-control" id="inputCBU" placeholder="Número CBU">
             </div>
             <div class="mb-3">
-              <label for="inputAlias" class="form-label">Alias</label>
               <input type="text" class="form-control" id="inputAlias" placeholder="Alias">
             </div>
             <div class="mb-3">
-              <label for="inputBanco" class="form-label">Banco</label>
               <input type="text" class="form-control" id="inputBanco" placeholder="Banco">
             </div>
           </div>
           <div class="modal-footer">
-            <button id="btnNuevoContacto" type="button" class="btn btn-primary">Agregar nuevo contacto</button>
-            <button id="btnCerrarModal" type="button" class="btn btn-secondary"
+            <button id="btnnewContact" type="button" class="btn btn-primary">Agregar nuevo contacto</button>
+            <button id="btncloseModal" type="button" class="btn btn-secondary"
               data-bs-dismiss="modal">Cancelar</button>
           </div>
         </div>
@@ -155,7 +177,7 @@
           </div>
           <div class="modal-footer">
             <button id="btnCancelarEnvio" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button id="btnRealizarEnvio" type="button" class="btn btn-primary">Realizar envio</button>
+            <button id="btnRealizarEnvio" type="button" class="btn btn-primary">Realizar envio</button>            
           </div>
         </div>
       </div>
@@ -169,10 +191,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+            <h5 class="modal-title" id="modalTitle">Modal title</h5>
           </div>
           <div id="modalBody" class="modal-body">
             ...
@@ -180,6 +199,7 @@
           <div class="modal-footer">
             <button id="btnSecondaryModal" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             <button id="btnPrimaryModal" type="button" class="btn btn-primary" href="./dashboard.html">Aceptar</button>
+            <button id="btndeleteContact" type="button" class="btn btn-primary">Eliminar contacto</button>
           </div>
         </div>
       </div>

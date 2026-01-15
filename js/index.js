@@ -1,9 +1,9 @@
 $(document).ready(function(){
 
      $('#loginForm').submit(
-        function(event){
+        async function(event){
             event.preventDefault();
-            if(login()){
+            if(await login()){
                 
                 $(location).attr('href', "dashboard.html");
                 return;

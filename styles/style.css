@@ -6,14 +6,6 @@ body {
     margin: 0 auto;
 }
 
-.container-login{
-    max-width: 390px;
-    border-radius: 10px;
-    padding: 3em;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 5em;
-}
-
 .fade{
     opacity: 1;
     background-color: #8080809c;
@@ -36,12 +28,32 @@ body {
     color: red;
 }
 
-.semi-circle {
+.background-screen {
   position: absolute;
   top: 0;
   left: 0;
   width: 100vw;   /* ocupa todo el ancho */
   height: 33vh;   /* un tercio de la altura */
-  background-color: orange;
+  background-color: #09206f;
   z-index: -1;
+}
+
+.btn-icon
+ {
+    margin-bottom: 15px;
+    padding: 12px;
+    font-size: 1.1rem;
+    background-color: #09206f;
+    color: black;
+    border: none;
+    height: 5em;
+    width: 11em;
+}
+
+.btn-icon:hover{
+    background: #718cbef3;
+}
+
+.btn-icon img{
+    width: 3.5em;
 }

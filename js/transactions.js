@@ -8,6 +8,7 @@ $(document).ready(function(){
      $("#select-filter").change(function(){
         loadTranscations();
      });
+     
 })
 
 const loadTranscations = () => {
@@ -20,7 +21,10 @@ const loadTranscations = () => {
     const historyFiltered = $("#select-filter").val() !== '' ? history.filter(transaction => transaction.type === $("#select-filter").val()) : history;
     historyFiltered.forEach(transaction => {
         htmlHistory += `<li class="list-group-item">
-                        ${transaction.nombre} - $${transaction.amount} - ${getTipoTransaccion(transaction.type)} - ${transaction.date ?? 'Sin info'}
+                            <div class="transaction-col">${transaction.nombre}</div>
+                            <div class="transaction-col text-end">$${transaction.amount}</div>
+                            <div class="transaction-col text-end">${getTipoTransaccion(transaction.type)}</div>
+                            <div class="transaction-col text-end">${transaction.date ?? 'Sin info'}</div>
                         </li>`;
     });
     $("#historial").html(htmlHistory);

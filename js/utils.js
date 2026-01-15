@@ -59,12 +59,18 @@ const validateAccount = () => {
 
 
 const hashPassword = async (texto) => {
-  const encoder = new TextEncoder();
-  const data = encoder.encode(texto);
+  try {
+    const encoder = new TextEncoder();
+    const data = encoder.encode(texto);
 
-  const hashBuffer = await crypto.subtle.digest("SHA-256", data);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
 
-  return hashHex;
+    return hashHex;
+  } catch (error) {
+    console.error("Error en hashPassword:", error);
+    console.error("Este error puede ocurrir si la página no se está ejecutando en un contexto seguro (HTTPS o localhost), que es un requisito para la API de criptografía web.");
+    throw error;
+  }
 }

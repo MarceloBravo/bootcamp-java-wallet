@@ -3,6 +3,7 @@ let selectedContact = null;
 const searchContact = $("#searchContact").val();
 let userAccount = null;
 let action = null;
+let contactToDelete = null;
 
 
 $(document).ready(function(){
@@ -15,20 +16,20 @@ $(document).ready(function(){
 
     listContacts();
 
-    $("#btnCerrarModal").click(()=>{
-        cerrarModal();
+    $("#btncloseModal").click(()=>{
+        closeModal();
     });
 
-    $("#btnNuevoContacto").click(()=>{
-        nuevoContacto();
+    $("#btnnewContact").click(()=>{
+        newContact();
     });
 
-    $("#btnEnviarDinero").click(()=>{
-        solicitarMonto();
+    $("#btntransferMoney").click(()=>{
+        openContactListClick();
     });
 
     $("#btnRealizarEnvio").click(()=>{
-        enviarDinero();
+        transferMoney();
     });
 
     $("#btnCancelarEnvio").click(()=>{
@@ -50,19 +51,48 @@ $(document).ready(function(){
 
     $("#btnSecondaryModal").click(() => {
         $("#myModal").modal("hide");
+        $("#btndeleteContact").css('display', 'none');
     })
 
     $("#inputMonto").change(() => {
         $("#alertInfo").html("");
     })
+
+    $("#btnSearchContact").click(() => {
+        openContactListClick();
+    })
+
+    $("#searchContact").change(() => {
+        inputSearchContactChange();
+    })
     
+    $("#searchContact").focus(() => {
+        $("#searchContact").val('');
+    })
+
+    $("#btnBack").click(() => {
+        $("#div-contactos").css('display', 'none');
+        $("#div-transaccion").css('display', 'block');
+        if(selectedContact){
+            selectContact(selectedContact.cbu)
+        }
+        selectedContact = null;
+    })
+
+    $("#btnExecuteTransaction").click(()=> {
+        transferMoney();
+    })
+
+    $("#btndeleteContact").click(() => {
+        deleteContact(contactToDelete.CBU);
+    })
 });
 
 
 /**
  * Resetea los campos y cierra el formulario modal de creación de contacto
  */
-const cerrarModal = () => {
+const closeModal = () => {
     $("#inputNombre").val('');
     $("#inputApellido").val('');
     $("#inputCBU").val(0);
@@ -71,7 +101,7 @@ const cerrarModal = () => {
     $("#alertDangerModal").css("display", "none");
 }
 
-const nuevoContacto = () => {
+const newContact = () => {
     action = 'nuevo_contacto';
     try{
         const firstName = $("#inputNombre").val();
@@ -80,16 +110,24 @@ const nuevoContacto = () => {
         const alias = $("#inputAlias").val();
         const bank = $("#inputBanco").val();
         if(!firstName || !lastName || !cbu || !alias || !bank){
+            $("#modalTitle").html('Error');
             showMessage("Debe completar todos los campos", "danger");
+            return;
+        }
+        if(contacts.find(contact => contact.CBU === cbu)){
+            $("#modalTitle").html('Error');
+            showMessage("Ya existe un contacto con ese CBU", "danger");
             return;
         }
         contacts.push({nombre: firstName, apellido: lastName, CBU: cbu, Alias: alias, Banco: bank});
         saveContacts();
 
         listContacts();
-        $('#btnCerrarModal').click();
+        $('#btncloseModal').click();
+        $("#modalTitle").html('Exito');
         showMessage('Contacto creado correctamente', 'success');
     }catch(error){
+        $("#modalTitle").html('Error');
         showMessage('Error al crear el contacto', 'danger');
     }
 };
@@ -105,57 +143,47 @@ const saveContacts = () => {
 
 const listContacts = (filtered = null) => {
     const data = filtered || contacts;
-    let id = 0;
     let innerHTML = '';
     data.forEach(contact => {
-        innerHTML += `<li id="contacto-${id}" class="list-group-item" style="cursor: pointer" onclick="liSeleccionarContactoClick(${id})">
-          <div class="contact-info">
+        innerHTML += `<tr id="contacto-${contact.CBU}" class="list-group-item" style="cursor: pointer" onclick="selectContact(${contact.CBU})">
+          <td class="contact-info">
+            <span class="contact-details">CBU: ${contact.CBU}</span>
             <span class="contact-name">${contact.nombre} ${contact.apellido}</span>
-            <span class="contact-details">CBU: ${contact.CBU}, Alias: ${contact.Alias}, Banco: ${contact.Banco}</span>
-          </div>
-        </li>`;
-        id++;
+            <span class="contact-details">, Alias: ${contact.Alias}, Banco: ${contact.Banco}</span>
+          </td>
+          <td class="contact-action">
+            <button class="btn btn-sm" onclick="showDeletedContactModal(${contact.CBU})">
+              <img src="./assets/trash-icon.png" alt="Eliminar" width="16" height="16">
+            </button>
+          </td>
+        </tr>`;
     })
     $("#contactList").html(innerHTML);
 }
 
 
-const liSeleccionarContactoClick = (id) => {
-    const items = document.querySelectorAll('ul li');
+const selectContact = (cbu) => {
+    const items = document.querySelectorAll('tr');
     selectedContact = null;
-    items.forEach(li => {
+    items.forEach((li, index) => {
         if(li.classList.contains('active')){
             li.classList.remove('active');
         }else{
-            if(li.id === 'contacto-'+id){
+            if(li.id === 'contacto-'+cbu){
                 li.classList.add('active');
-                selectedContact = contacts[id];
+                selectedContact = contacts.find(contact => contact.CBU === `${cbu}`);
             }
         }
     })
 }
 
-const solicitarMonto = () => {
-    if(!selectedContact){
-        showMessage('Debe seleccionar un contacto', 'danger');
-        return;
-    }
-    $("#inputMonto").val('');
-    $("#alertInfo").html("");
-    $("#ModalMontoEnvio").modal("show");
-}
-
-const enviarDinero = () => {
+const transferMoney = () => {
     let msgError = null;
     try{
         const monto = parseInt($("#inputMonto").val());
-        if(!monto || monto <= 0){
-            showMessage("Debe ingresar un monto válido","danger");
-            return;
-        }
-        if(monto > userAccount.wallet.amount){
-            showMessage("No tienes saldo suficiente para realizar ésta operación","danger");
-            return;
+        if(!selectedContact){
+            msgError = 'Debe seleccionar un contacto';
+            throw new Error(msgError);
         }
         msgError = 'Error al enviar dinero';
         let currentAmount = userAccount.wallet.amount;
@@ -167,9 +195,11 @@ const enviarDinero = () => {
         updateLocalStorage();
         
         $("#h-monto").html('$' + newAmount);
+        $("#modalTitle").html('Exito');
         showMessage(`Dinero enviado correctamente:<br/>Monto: $${monto}<br/>Enviado a: ${selectedContact.nombre} ${selectedContact.apellido}`, 'success');
         $("#ModalMontoEnvio").modal("hide");
     }catch(error){
+        $("#modalTitle").html('Error');
         showMessage(msgError ??'Error al enviar dinero', 'danger');
     }
 
@@ -182,6 +212,7 @@ const updateLocalStorage = () => {
         users[index] = userAccount;
         localStorage.setItem('users', JSON.stringify(users));
     }catch(error){
+        $("#modalTitle").html('Error');
         showMessage('Error al actualizar el reistro', 'danger');
     }
 }
@@ -192,12 +223,14 @@ const updateHistory = (monto) => {
         historyArray.push({nombre: selectedContact.nombre, amount: monto, type: 'send', date: new Date().toLocaleString()});
         userAccount.wallet.history = historyArray;
     }catch(error){
+        $("#modalTitle").html('Error');
         showMessage('Error al actualizar el historial', 'danger');
     }
 }
 
+
 const inputSearchContactChange = (event) => {
-    const value = event.target.value;
+    const value = $("#searchContact").val();
     const filtered = contacts.filter(contact => {
         if(
             contact.nombre.toLowerCase().includes(value.toLowerCase()) || 
@@ -210,4 +243,42 @@ const inputSearchContactChange = (event) => {
         }
     })
     listContacts(filtered);
+}
+
+const openContactListClick = () => {
+    const monto = parseInt($("#inputMonto").val());
+    if(!monto || monto <= 0){
+        $("#modalTitle").html('Error'); 
+        showMessage("Debe ingresar un monto válido","danger");
+        return;
+    }
+    if(monto > userAccount.wallet.amount){
+        $("#modalTitle").html('Error');
+        showMessage("No tienes saldo suficiente para realizar ésta operación","danger");
+        return;
+    }
+    $("#div-transaccion").css('display', 'none');
+    $("#div-contactos").css('display', 'block');
+}
+
+const showDeletedContactModal = (cbu) => {
+    contactToDelete = contacts.find(contact => contact.CBU === cbu.toString());
+    $("#btndeleteContact").css('display', 'inline-block');
+    $("#modalTitle").html('Eliminar contacto');
+    showMessage(`¿Desea eliminar el contacto ${contactToDelete.nombre} ${contactToDelete.apellido}?`, 'info');
+}
+
+const deleteContact = (cbu) => {
+    $("#btndeleteContact").css('display', 'none');
+    try{
+        event.stopPropagation();
+        contacts = contacts.filter(contact => contact.CBU !== cbu.toString());
+        saveContacts();
+        listContacts();
+        $("#modalTitle").html('Contacto eliminado');
+        showMessage('Contacto eliminado correctamente', 'success');
+    }catch(error){
+        $("#modalTitle").html('Error');
+        showMessage('Error al eliminar el contacto', 'danger');
+    }
 }
