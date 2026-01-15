@@ -6,14 +6,6 @@ body {
     margin: 0 auto;
 }
 
-.container-login{
-    max-width: 390px;
-    border-radius: 10px;
-    padding: 3em;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 5em;
-}
-
 .fade{
     opacity: 1;
     background-color: #8080809c;
