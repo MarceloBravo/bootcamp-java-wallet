@@ -35,21 +35,6 @@ h2 {
     color: #959595;;
 }
 
-.btn {
-    margin-bottom: 15px;
-    padding: 12px;
-    font-size: 1.1rem;
-    background-color: #dbdbdbc2;
-    color: black;
-    border: none;
-    height: 5em;
-    width: 11em;
-}
-
-img{
-    width: 3.5em;
-}
-
 .container-buttons{
     display: flex;
     flex-wrap: wrap;
@@ -57,7 +42,26 @@ img{
     justify-content: center;
 }
 
-.container-buttons button:hover{
-    background: #ffc1074a;
+.btn-icon
+ {
+    margin-bottom: 15px;
+    padding: 12px;
+    font-size: 1.1rem;
+    background-color: #09206f;
+    color: black;
+    border: none;
+    height: 5em;
+    width: 11em;
 }
+
+.btn-icon:hover{
+    background: #718cbef3;
+}
+
+img{
+    width: 3.5em;
+}
+
+
+
 

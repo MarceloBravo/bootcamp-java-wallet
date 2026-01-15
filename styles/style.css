@@ -28,12 +28,12 @@ body {
     color: red;
 }
 
-.semi-circle {
+.background-screen {
   position: absolute;
   top: 0;
   left: 0;
   width: 100vw;   /* ocupa todo el ancho */
   height: 33vh;   /* un tercio de la altura */
-  background-color: orange;
+  background-color: #09206f;
   z-index: -1;
 }
