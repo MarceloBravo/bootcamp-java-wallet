@@ -24,7 +24,7 @@ $(document).ready(function(){
     });
 
     $("#btnEnviarDinero").click(()=>{
-        solicitarMonto();
+        openContactListClick();
     });
 
     $("#btnRealizarEnvio").click(()=>{
@@ -55,6 +55,23 @@ $(document).ready(function(){
     $("#inputMonto").change(() => {
         $("#alertInfo").html("");
     })
+
+    $("#btnSearchContact").click(() => {
+        openContactListClick();
+     })
+
+     $("#btnBack").click(() => {
+        $("#div-contactos").css('display', 'none');
+        $("#div-transaccion").css('display', 'block');
+        if(selectedContact){
+            liSeleccionarContactoClick(selectedContact.cbu)
+        }
+        selectedContact = null;
+     })
+
+     $("#btnExecuteTransaction").click(()=> {
+        enviarDinero();
+     })
     
 });
 
@@ -83,6 +100,10 @@ const nuevoContacto = () => {
             showMessage("Debe completar todos los campos", "danger");
             return;
         }
+        if(contacts.find(contact => contact.CBU === cbu)){
+            showMessage("Ya existe un contacto con ese CBU", "danger");
+            return;
+        }
         contacts.push({nombre: firstName, apellido: lastName, CBU: cbu, Alias: alias, Banco: bank});
         saveContacts();
 
@@ -105,57 +126,42 @@ const saveContacts = () => {
 
 const listContacts = (filtered = null) => {
     const data = filtered || contacts;
-    let id = 0;
     let innerHTML = '';
     data.forEach(contact => {
-        innerHTML += `<li id="contacto-${id}" class="list-group-item" style="cursor: pointer" onclick="liSeleccionarContactoClick(${id})">
+        innerHTML += `<li id="contacto-${contact.CBU}" class="list-group-item" style="cursor: pointer" onclick="liSeleccionarContactoClick(${contact.CBU})">
           <div class="contact-info">
-            <span class="contact-name">${contact.nombre} ${contact.apellido}</span>
-            <span class="contact-details">CBU: ${contact.CBU}, Alias: ${contact.Alias}, Banco: ${contact.Banco}</span>
+          <span class="contact-details">CBU: ${contact.CBU}</span>
+          <span class="contact-name">${contact.nombre} ${contact.apellido}</span>
+          <span class="contact-details">, Alias: ${contact.Alias}, Banco: ${contact.Banco}</span>
           </div>
         </li>`;
-        id++;
     })
     $("#contactList").html(innerHTML);
 }
 
 
-const liSeleccionarContactoClick = (id) => {
+const liSeleccionarContactoClick = (cbu) => {
     const items = document.querySelectorAll('ul li');
     selectedContact = null;
-    items.forEach(li => {
+    items.forEach((li, index) => {
         if(li.classList.contains('active')){
             li.classList.remove('active');
         }else{
-            if(li.id === 'contacto-'+id){
+            if(li.id === 'contacto-'+cbu){
                 li.classList.add('active');
-                selectedContact = contacts[id];
+                selectedContact = contacts.find(contact => contact.CBU === `${cbu}`);
             }
         }
     })
-}
-
-const solicitarMonto = () => {
-    if(!selectedContact){
-        showMessage('Debe seleccionar un contacto', 'danger');
-        return;
-    }
-    $("#inputMonto").val('');
-    $("#alertInfo").html("");
-    $("#ModalMontoEnvio").modal("show");
 }
 
 const enviarDinero = () => {
     let msgError = null;
     try{
         const monto = parseInt($("#inputMonto").val());
-        if(!monto || monto <= 0){
-            showMessage("Debe ingresar un monto válido","danger");
-            return;
-        }
-        if(monto > userAccount.wallet.amount){
-            showMessage("No tienes saldo suficiente para realizar ésta operación","danger");
-            return;
+        if(!selectedContact){
+            msgError = 'Debe seleccionar un contacto';
+            throw new Error(msgError);
         }
         msgError = 'Error al enviar dinero';
         let currentAmount = userAccount.wallet.amount;
@@ -210,4 +216,18 @@ const inputSearchContactChange = (event) => {
         }
     })
     listContacts(filtered);
+}
+
+const openContactListClick = () => {
+    const monto = parseInt($("#inputMonto").val());
+    if(!monto || monto <= 0){
+        showMessage("Debe ingresar un monto válido","danger");
+        return;
+    }
+    if(monto > userAccount.wallet.amount){
+        showMessage("No tienes saldo suficiente para realizar ésta operación","danger");
+        return;
+    }
+    $("#div-transaccion").css('display', 'none');
+    $("#div-contactos").css('display', 'block');
 }

@@ -1,10 +1,14 @@
-.list-group-item.active{
-    background: rgb(1 55 88) !important;
-}
-
 body {
     background-color: #f8f9fa;
-    padding-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.list-group-item.active{
+    background: rgb(1 55 88) !important;
 }
 
 .container {
@@ -13,6 +17,8 @@ body {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-width: 800px;
+    top: 50px;
+    position: relative;
 }
 
 h2 {
@@ -32,6 +38,31 @@ h2 {
     color: #959595;;
 }
 
+#btnSearchContact{
+    display: flex;
+    justify-content: flex-start;
+    padding: 0px;
+    border: 0px;
+    align-items: center;
+    background: #19347f;
+    color: white;
+    text-decoration: none;
+}
+
+#btnSearchContact:hover{
+    background: #2984cf;
+}
+
+#btnSearchContact:active{
+ background-color: #19347f; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) inset; /* Sombra interior */
+  transform: translate(2px, 2px) 
+}
+
+#btnSearchContact img{
+    height: 33px;
+}
+
 #alertInfo, #alertDangerModal {
     display: none;
     position: fixed;
@@ -41,7 +72,7 @@ h2 {
 }
 
 #contactList {
-    max-height: 300px;
+    max-height: 200px;
     overflow-y: auto;
     margin-bottom: 20px;
 }
@@ -58,7 +89,6 @@ h2 {
     width: 193.59px;
     padding: 12px;
     font-size: 1.1rem;
-    margin-top: 10px;
 }
 
 #btnShowModal{
@@ -90,24 +120,10 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    align-items: center;
     justify-content: center;
 }
 
-.container-buttons button {
-    margin-bottom: 15px;
-    padding: 12px;
-    font-size: 1.1rem;
-    background-color: #dbdbdbc2;
-    color: black;
-    border: none;
-    height: 5em;
+#div-contactos{
+    display: none;
 }
-
-.container-buttons button:hover{
-    background: #ffc1074a;
-}
-
-img{
-    width: 3.5em;
-}
-

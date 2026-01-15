@@ -42,26 +42,6 @@ h2 {
     justify-content: center;
 }
 
-.btn-icon
- {
-    margin-bottom: 15px;
-    padding: 12px;
-    font-size: 1.1rem;
-    background-color: #09206f;
-    color: black;
-    border: none;
-    height: 5em;
-    width: 11em;
-}
-
-.btn-icon:hover{
-    background: #718cbef3;
-}
-
-img{
-    width: 3.5em;
-}
-
 
 
 

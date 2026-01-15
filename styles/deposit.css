@@ -58,22 +58,3 @@ h3 {
     gap: 10px;
     flex-wrap: wrap;
 }
-
-.btn {
-    margin-bottom: 15px;
-    padding: 12px;
-    font-size: 1.1rem;
-    background-color: #dbdbdbc2;
-    color: black;
-    border: none;
-    height: 5em;
-    width: 11em;
-}
-
-img{
-    width: 3.5em;
-}
-
-.container-buttons button:hover{
-    background: #ffc1074a;
-}

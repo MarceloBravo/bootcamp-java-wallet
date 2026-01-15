@@ -50,14 +50,39 @@
 
     <div class="container">
       <h2>Enviar Dinero</h2>
-      <h3 class="h3-saldo">Saldo:
-        <span id="h-monto">$ 0</span>
-      </h3>
-      <form>
+      <div id="div-transaccion" class="transaccion">
+        <h3 class="h3-saldo">Saldo:
+          <span id="h-monto">$ 0</span>
+        </h3>
+        <div class="destinatario">
+
+        </div>
+        <div class="form-group monto-envio">
+          <div class="form-group row">
+            <label for="txt-monto" class="col-sm-3 col-form-label">Monto a enviar</label>
+            <div class="col-sm-9">
+              <input type="number" class="form-control" id="inputMonto" value="" placeholder="0">
+            </div>
+          </div>
+          <div class="msgError" id="msgSendAmount"></div>
+          <div class="form-group container-buttons">
+            <button id="btnEnviarDinero" type="button" class="btn btn-icon">
+              <img src="assets/sendmoney.png" alt="Enviar Dinero"/>
+            </button>
+            <button id="btnBackToMenu" type="button" class="btn btn-icon">
+              <img src="assets/home.png" alt="Enviar Dinero"/>
+            </button>
+          </div>
+
+        </div>
+      </div>
+      
+      
         
+      <div id="div-contactos" class="contactos">
+        <h3>Selecciona el destinatario</h3>
         <div class="form-group">
-          <label for="searchContact">Buscar en la agenda de contactos:</label>
-          <input type="text" class="form-control" id="searchContact" placeholder="Buscar contacto"
+          <input type="text" class="form-control" id="searchContact" placeholder="Buscar en la agenda de contactos"
             onchange="inputSearchContactChange(event)">
         </div>
 
@@ -69,21 +94,19 @@
 
         </ul>
 
-        
-
-      </form>
-      <div class="form-group container-buttons">
-        <button id="btnShowModal" type="button" class="btn" data-bs-toggle="modal"
-            data-bs-target="#ModalContacto">
+        <div class="form-group container-buttons">
+          <button id="btnExecuteTransaction" type="button" class="btn btn-icon">
+              <img src="assets/sendmoney.png" alt="Enviar Dinero"/>
+          </button>
+          <button id="btnShowModal" type="button" class="btn btn-icon" data-bs-toggle="modal" data-bs-target="#ModalContacto">
               <img src="assets/add_user.png" alt="Enviar Dinero"/>
-          </button>
-          <button id="btnEnviarDinero" type="button" class="btn">
-            <img src="assets/sendmoney.png" alt="Enviar Dinero"/>
-          </button>
-          <button id="btnBackToMenu" type="button" class="btn">
-            <img src="assets/home.png" alt="Enviar Dinero"/>
-          </button>
+          </button>  
+          <button id="btnBack" type="button" class="btn btn-icon">
+              <img src="assets/rewind-blue-left-arrows.png" alt="Enviar Dinero"/>
+          </button>  
         </div>
+      </div>
+        
     </div>
     <div id="alertInfo" class="alert alert-info" role="alert">
       A simple info alert—check it out!
@@ -98,27 +121,21 @@
         <div class="modal-content">
           <div class="modal-header">
             <h1 class="modal-title fs-5" id="exampleModalLabel">Nuevo contacto</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div class="mb-3">
-              <label for="inputNombre" class="form-label">Nombre</label>
               <input type="text" class="form-control" id="inputNombre" placeholder="Nombre del contacto">
             </div>
             <div class="mb-3">
-              <label for="inputApellido" class="form-label">Apellido</label>
               <input type="text" class="form-control" id="inputApellido" placeholder="Apellido del contacto">
             </div>
             <div class="mb-3">
-              <label for="inputCBU" class="form-label">N° CBU</label>
               <input type="number" class="form-control" id="inputCBU" placeholder="Número CBU">
             </div>
             <div class="mb-3">
-              <label for="inputAlias" class="form-label">Alias</label>
               <input type="text" class="form-control" id="inputAlias" placeholder="Alias">
             </div>
             <div class="mb-3">
-              <label for="inputBanco" class="form-label">Banco</label>
               <input type="text" class="form-control" id="inputBanco" placeholder="Banco">
             </div>
           </div>
