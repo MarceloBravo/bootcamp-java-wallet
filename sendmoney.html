@@ -82,8 +82,7 @@
       <div id="div-contactos" class="contactos">
         <h3>Selecciona el destinatario</h3>
         <div class="form-group">
-          <input type="text" class="form-control" id="searchContact" placeholder="Buscar en la agenda de contactos"
-            onchange="inputSearchContactChange(event)">
+          <input type="text" class="form-control" id="searchContact" placeholder="Buscar en la agenda de contactos">
         </div>
 
         <div class="row conatiner-add-contact">
@@ -108,9 +107,15 @@
       </div>
         
     </div>
-    <div id="alertInfo" class="alert alert-info" role="alert">
-      A simple info alert—check it out!
-    </div>
+    <table id="alertInfo" class="alert alert-info" role="alert">
+      <thead>
+        <th>Contacto</th>
+        <th>Eliminar</th>
+      </thead>
+      <tbody>
+        A simple info alert—check it out!
+      </tbody>
+    </table>
 
     <!-- Modal nuevo contacto -->
     <div class="modal fade" id="ModalContacto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -172,7 +177,7 @@
           </div>
           <div class="modal-footer">
             <button id="btnCancelarEnvio" type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            <button id="btnRealizarEnvio" type="button" class="btn btn-primary">Realizar envio</button>
+            <button id="btnRealizarEnvio" type="button" class="btn btn-primary">Realizar envio</button>            
           </div>
         </div>
       </div>
@@ -186,10 +191,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+            <h5 class="modal-title" id="modalTitle">Modal title</h5>
           </div>
           <div id="modalBody" class="modal-body">
             ...
@@ -197,6 +199,7 @@
           <div class="modal-footer">
             <button id="btnSecondaryModal" type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             <button id="btnPrimaryModal" type="button" class="btn btn-primary" href="./dashboard.html">Aceptar</button>
+            <button id="btnEliminarContacto" type="button" class="btn btn-primary">Eliminar contacto</button>
           </div>
         </div>
       </div>

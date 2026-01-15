@@ -3,6 +3,7 @@ let selectedContact = null;
 const searchContact = $("#searchContact").val();
 let userAccount = null;
 let action = null;
+let contactToDelete = null;
 
 
 $(document).ready(function(){
@@ -50,6 +51,7 @@ $(document).ready(function(){
 
     $("#btnSecondaryModal").click(() => {
         $("#myModal").modal("hide");
+        $("#btnEliminarContacto").css('display', 'none');
     })
 
     $("#inputMonto").change(() => {
@@ -58,21 +60,32 @@ $(document).ready(function(){
 
     $("#btnSearchContact").click(() => {
         openContactListClick();
-     })
+    })
 
-     $("#btnBack").click(() => {
+    $("#searchContact").change(() => {
+        inputSearchContactChange();
+    })
+    
+    $("#searchContact").focus(() => {
+        $("#searchContact").val('');
+    })
+
+    $("#btnBack").click(() => {
         $("#div-contactos").css('display', 'none');
         $("#div-transaccion").css('display', 'block');
         if(selectedContact){
             liSeleccionarContactoClick(selectedContact.cbu)
         }
         selectedContact = null;
-     })
+    })
 
-     $("#btnExecuteTransaction").click(()=> {
+    $("#btnExecuteTransaction").click(()=> {
         enviarDinero();
-     })
-    
+    })
+
+    $("#btnEliminarContacto").click(() => {
+        eliminarContacto(contactToDelete.CBU);
+    })
 });
 
 
@@ -97,10 +110,12 @@ const nuevoContacto = () => {
         const alias = $("#inputAlias").val();
         const bank = $("#inputBanco").val();
         if(!firstName || !lastName || !cbu || !alias || !bank){
+            $("#modalTitle").html('Error');
             showMessage("Debe completar todos los campos", "danger");
             return;
         }
         if(contacts.find(contact => contact.CBU === cbu)){
+            $("#modalTitle").html('Error');
             showMessage("Ya existe un contacto con ese CBU", "danger");
             return;
         }
@@ -109,8 +124,10 @@ const nuevoContacto = () => {
 
         listContacts();
         $('#btnCerrarModal').click();
+        $("#modalTitle").html('Exito');
         showMessage('Contacto creado correctamente', 'success');
     }catch(error){
+        $("#modalTitle").html('Error');
         showMessage('Error al crear el contacto', 'danger');
     }
 };
@@ -128,20 +145,25 @@ const listContacts = (filtered = null) => {
     const data = filtered || contacts;
     let innerHTML = '';
     data.forEach(contact => {
-        innerHTML += `<li id="contacto-${contact.CBU}" class="list-group-item" style="cursor: pointer" onclick="liSeleccionarContactoClick(${contact.CBU})">
-          <div class="contact-info">
-          <span class="contact-details">CBU: ${contact.CBU}</span>
-          <span class="contact-name">${contact.nombre} ${contact.apellido}</span>
-          <span class="contact-details">, Alias: ${contact.Alias}, Banco: ${contact.Banco}</span>
-          </div>
-        </li>`;
+        innerHTML += `<tr id="contacto-${contact.CBU}" class="list-group-item" style="cursor: pointer" onclick="liSeleccionarContactoClick(${contact.CBU})">
+          <td class="contact-info">
+            <span class="contact-details">CBU: ${contact.CBU}</span>
+            <span class="contact-name">${contact.nombre} ${contact.apellido}</span>
+            <span class="contact-details">, Alias: ${contact.Alias}, Banco: ${contact.Banco}</span>
+          </td>
+          <td class="contact-action">
+            <button class="btn btn-sm" onclick="showDeletedContactModal(${contact.CBU})">
+              <img src="./assets/trash-icon.png" alt="Eliminar" width="16" height="16">
+            </button>
+          </td>
+        </tr>`;
     })
     $("#contactList").html(innerHTML);
 }
 
 
 const liSeleccionarContactoClick = (cbu) => {
-    const items = document.querySelectorAll('ul li');
+    const items = document.querySelectorAll('tr');
     selectedContact = null;
     items.forEach((li, index) => {
         if(li.classList.contains('active')){
@@ -173,9 +195,11 @@ const enviarDinero = () => {
         updateLocalStorage();
         
         $("#h-monto").html('$' + newAmount);
+        $("#modalTitle").html('Exito');
         showMessage(`Dinero enviado correctamente:<br/>Monto: $${monto}<br/>Enviado a: ${selectedContact.nombre} ${selectedContact.apellido}`, 'success');
         $("#ModalMontoEnvio").modal("hide");
     }catch(error){
+        $("#modalTitle").html('Error');
         showMessage(msgError ??'Error al enviar dinero', 'danger');
     }
 
@@ -188,6 +212,7 @@ const updateLocalStorage = () => {
         users[index] = userAccount;
         localStorage.setItem('users', JSON.stringify(users));
     }catch(error){
+        $("#modalTitle").html('Error');
         showMessage('Error al actualizar el reistro', 'danger');
     }
 }
@@ -198,12 +223,14 @@ const updateHistory = (monto) => {
         historyArray.push({nombre: selectedContact.nombre, amount: monto, type: 'send', date: new Date().toLocaleString()});
         userAccount.wallet.history = historyArray;
     }catch(error){
+        $("#modalTitle").html('Error');
         showMessage('Error al actualizar el historial', 'danger');
     }
 }
 
+
 const inputSearchContactChange = (event) => {
-    const value = event.target.value;
+    const value = $("#searchContact").val();
     const filtered = contacts.filter(contact => {
         if(
             contact.nombre.toLowerCase().includes(value.toLowerCase()) || 
@@ -221,13 +248,37 @@ const inputSearchContactChange = (event) => {
 const openContactListClick = () => {
     const monto = parseInt($("#inputMonto").val());
     if(!monto || monto <= 0){
+        $("#modalTitle").html('Error'); 
         showMessage("Debe ingresar un monto válido","danger");
         return;
     }
     if(monto > userAccount.wallet.amount){
+        $("#modalTitle").html('Error');
         showMessage("No tienes saldo suficiente para realizar ésta operación","danger");
         return;
     }
     $("#div-transaccion").css('display', 'none');
     $("#div-contactos").css('display', 'block');
+}
+
+const showDeletedContactModal = (cbu) => {
+    contactToDelete = contacts.find(contact => contact.CBU === cbu.toString());
+    $("#btnEliminarContacto").css('display', 'inline-block');
+    $("#modalTitle").html('Eliminar contacto');
+    showMessage(`¿Desea eliminar el contacto ${contactToDelete.nombre} ${contactToDelete.apellido}?`, 'info');
+}
+
+const eliminarContacto = (cbu) => {
+    $("#btnEliminarContacto").css('display', 'none');
+    try{
+        event.stopPropagation();
+        contacts = contacts.filter(contact => contact.CBU !== cbu.toString());
+        saveContacts();
+        listContacts();
+        $("#modalTitle").html('Contacto eliminado');
+        showMessage('Contacto eliminado correctamente', 'success');
+    }catch(error){
+        $("#modalTitle").html('Error');
+        showMessage('Error al eliminar el contacto', 'danger');
+    }
 }

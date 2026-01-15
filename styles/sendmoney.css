@@ -71,6 +71,10 @@ h2 {
     width: 90%;
 }
 
+#btnEliminarContacto{
+    display: none;
+}
+
 #contactList {
     max-height: 200px;
     overflow-y: auto;
@@ -79,6 +83,9 @@ h2 {
 
 .list-group-item {
     cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .list-group-item:hover {
