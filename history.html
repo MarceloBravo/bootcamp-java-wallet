@@ -5,7 +5,7 @@
   <title>Wallet - Últimos Movimientos</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
   <link rel="stylesheet" href="./styles/style.css">
-  <link rel="stylesheet" href="./styles/transactions.css">
+  <link rel="stylesheet" href="./styles/history.css">
   <link rel="stylesheet" href="./styles/navbar.css">
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -14,7 +14,7 @@
 
   <script src="./js/utils.js"></script>
   <script src="./js/modal.js"></script>
-  <script src="./js/transactions.js"></script>
+  <script src="./js/history.js"></script>
   <script src="./js/navbar.js" defer></script>
 </head>
 
@@ -50,14 +50,22 @@
 
     <div class="container">
       <h2>Últimos Movimientos</h2>
-      <div class="mb-3">
-        <label for="filterTransaction" class="form-label">Filtrar transacciones por:</label>
-        <select id="select-filter" class="form-select form-control" aria-label="Default select example">
-          <option value="">Todas</option>
-          <option value="deposit">Deposito</option>
-          <option value="send">Transferencia</option>
-        </select>
-      </div>
+        <div class="form-group row">
+          <label for="filterTransaction" class="form-label col-sm-3">Tipo de transacción:</label>
+          <div class="col-sm-9">
+            <select id="select-filter" class="form-select form-control" aria-label="Default select example">
+              <option value="">Todas</option>
+              <option value="deposit">Deposito</option>
+              <option value="send">Transferencia</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="filterTextTransaction" class="form-label col-sm-3">Filtrar por:</label>
+          <div class="col-sm-9">
+            <input type="text" class="form-control" id="filterTextTransaction" value=""  placeholder="Ingresa el texto o valor a filtrar y presiona Enter">
+          </div>
+        </div>
       <ul id="historial" class="list-group">
 
       </ul>

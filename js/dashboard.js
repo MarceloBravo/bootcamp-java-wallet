@@ -17,8 +17,8 @@ $(document).ready(function(){
         $(location).attr('href', "sendmoney.html");
     });
     
-    $("#btnTransactions").click(() => {
-        $(location).attr('href', "transactions.html");
+    $("#btnhistory").click(() => {
+        $(location).attr('href', "history.html");
     });
     
 });

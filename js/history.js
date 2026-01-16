@@ -8,6 +8,10 @@ $(document).ready(function(){
      $("#select-filter").change(function(){
         loadTranscations();
      });
+    
+     $("#filterTextTransaction").change(function(){
+        loadTranscations();
+     });
      
 })
 
@@ -18,7 +22,17 @@ const loadTranscations = () => {
          return;
     }
     let htmlHistory = '';
-    const historyFiltered = $("#select-filter").val() !== '' ? history.filter(transaction => transaction.type === $("#select-filter").val()) : history;
+    const tipoTransaccion = $("#select-filter").val();
+    const textoFiltro = $("#filterTextTransaction").val().toLowerCase();
+    let historyFiltered = tipoTransaccion === '' ? history: history.filter(transaction => transaction.type === tipoTransaccion );
+    if(textoFiltro !== ''){
+        historyFiltered = historyFiltered.filter(elem => 
+            elem.nombre?.toLowerCase().includes(textoFiltro) || 
+            elem.date?.toLowerCase().includes(textoFiltro) || 
+            elem.amount?.toString().includes(textoFiltro)
+        );
+    }
+
     historyFiltered.forEach(transaction => {
         htmlHistory += `<li class="list-group-item">
                             <div class="transaction-col">${transaction.nombre}</div>
