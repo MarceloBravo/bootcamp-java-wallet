@@ -73,6 +73,7 @@ $(document).ready(function(){
     $("#btnBack").click(() => {
         $("#div-contactos").css('display', 'none');
         $("#div-transaccion").css('display', 'block');
+        $("#inputMonto").val('');
         if(selectedContact){
             selectContact(selectedContact.cbu)
         }
